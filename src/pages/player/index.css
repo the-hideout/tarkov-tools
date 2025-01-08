@@ -1,41 +1,82 @@
+.css-53rj3a-MuiTreeItem-content {
+    justify-content: center;
+}
+
 .MuiTreeItem-iconContainer {
     width: auto !important;
     justify-content: normal !important;
     margin-right: 0px !important;
+    align-self: center;
+}
+
+.MuiTreeItem-label {
+    width: auto !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    word-wrap: break-word;
 }
 
 .inventory {
-    display: flow-root;
+    display: flex;
+    gap: 10px;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    justify-content: center;
+    padding-bottom: 12px;
 }
 
 .grid-container {
     display: grid;
-    float: left;
     gap: 10px;
 }
 
 .grid-container.main {
-    grid-template-columns: auto auto auto;
+    grid-template-columns: repeat(3, minmax(280px, auto));
+    grid-template-rows: repeat(4, minmax(183px, auto));
 }
 
 .grid-container.side {
-    margin-left: 10px;
-    grid-template-columns: auto;
+    grid-template-columns: minmax(280px, auto);
+    grid-template-rows: minmax(183px, auto) 32px repeat(2, minmax(183px, auto));
+    align-self: flex-start;
 }
 
-.grid-container>div {
-    background-color: rgba(0, 0, 0, 0.4);
+.grid-container > div {
+    background-color: rgba(0, 0, 0);
     text-align: center;
     font-size: 20px;
+    clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 24px, 96% 0);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.gear-slot-label {
+    background-image: linear-gradient(#474747, #000);
+    background-size: 101% 101%;
+    color: #fff;
+    padding: 0 0 5px 5px;
+    width: 100%;
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .weapon {
     grid-column: 1 / span 2;
+    justify-items: center;
+    align-items: center;
+    clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 24px, 98% 0) !important;
+}
+
+.pockets_and_special_slots {
+    clip-path: none !important;
 }
 
 ul.favorite-item-list {
     list-style: none;
     padding: 0px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 ul.favorite-item-list li {
@@ -51,7 +92,8 @@ ul.favorite-item-list li {
     color: #ffe084;
 }
 
-.banned, .not-banned {
+.banned,
+.not-banned {
     margin-left: 1em;
 }
 
@@ -68,7 +110,7 @@ ul.favorite-item-list li {
 }
 
 .profile-button {
-    padding: .2rem;
+    padding: 0.2rem;
     border-radius: 4px;
     vertical-align: middle;
     margin-left: 20px;
@@ -76,4 +118,41 @@ ul.favorite-item-list li {
 
 .current-wipe-achievement {
     font-weight: bold;
+}
+
+@media screen and (max-width: 1000px) {
+    .grid-container.main {
+        grid-template-columns: repeat(3, minmax(187.7px, auto));
+        grid-template-rows: repeat(4, minmax(122px, auto));
+    }
+
+    .grid-container.side {
+        grid-template-columns: minmax(187.7px, auto);
+        grid-template-rows: minmax(122px, auto) 32px repeat(2, minmax(122px, auto));
+    }
+
+    .inventory {
+        justify-content: flex-start;
+    }
+
+    .gear-slot-label {
+        padding-bottom: 1px;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .grid-container.main {
+        grid-template-columns: repeat(3, minmax(140px, auto));
+        grid-template-rows: repeat(4, minmax(91.5px, auto));
+    }
+
+    .grid-container.side {
+        grid-template-columns: minmax(140px, auto);
+        grid-template-rows: minmax(91.5px, auto) 32px repeat(2, minmax(91.5px, auto));
+    }
+
+    .gear-slot-label {
+        font-size: 12px;
+    }
 }

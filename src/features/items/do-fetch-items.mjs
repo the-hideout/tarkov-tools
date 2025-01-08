@@ -1,4 +1,4 @@
-import fetch  from 'cross-fetch';
+import fetch from 'cross-fetch';
 
 import APIQuery from '../../modules/api-query.mjs';
 import fleaMarketFee from '../../modules/flea-market-fee.mjs';
@@ -9,9 +9,9 @@ class ItemsQuery extends APIQuery {
     }
 
     async query(options) {
-        const { language, gameMode, prebuild} = options;
+        const { language, gameMode, prebuild } = options;
         const itemLimit = 20000;
-        const QueryBody = offset => {
+        const QueryBody = (offset) => {
             return `query TarkovDevItems {
                 items(lang: ${language}, gameMode: ${gameMode}, limit: ${itemLimit}, offset: ${offset}) {
                     id
@@ -42,6 +42,7 @@ class ItemsQuery extends APIQuery {
                     baseImageLink
                     image512pxLink
                     image8xLink
+                    inspectImageLink      
                     updated
                     sellFor {
                         ...ItemPriceFragment
@@ -411,13 +412,19 @@ class ItemsQuery extends APIQuery {
                         if (itemBatch.data.items.length === 0) {
                             break;
                         }
-                        retrievedItems.data.items = retrievedItems.data.items.concat(itemBatch.data.items);
+                        retrievedItems.data.items = retrievedItems.data.items.concat(
+                            itemBatch.data.items,
+                        );
                         if (itemBatch.data.items.length < itemLimit) {
                             break;
                         }
                     }
                     if (!itemBatch.errors) {
-                        if (!itemBatch.data || !itemBatch.data.items || !itemBatch.data.items.length) {
+                        if (
+                            !itemBatch.data ||
+                            !itemBatch.data.items ||
+                            !itemBatch.data.items.length
+                        ) {
                             break;
                         }
                     }
@@ -428,23 +435,27 @@ class ItemsQuery extends APIQuery {
                 }
                 resolve(retrievedItems);
             }),
-            this.graphqlRequest(`{
+            this.graphqlRequest(
+                `{
                 fleaMarket {
                     sellOfferFeeRate
                     sellRequirementFeeRate
                 }
-            }`.replace(/\s{2,}/g, ' ')),
-            new Promise(resolve => {
+            }`.replace(/\s{2,}/g, ' '),
+            ),
+            new Promise((resolve) => {
                 if (prebuild) {
                     return resolve({});
                 }
-                return resolve(fetch(`${process.env.PUBLIC_URL}/data/item-grids.min.json`).then(
-                    (response) => response.json(),
-                )).catch(error => {
+                return resolve(
+                    fetch(`${process.env.PUBLIC_URL}/data/item-grids.min.json`).then((response) =>
+                        response.json(),
+                    ),
+                ).catch((error) => {
                     console.log('Error retrieving item grids', error);
                     return {};
                 });
-            })
+            }),
         ]);
         //console.timeEnd('items query');
         if (itemData.errors) {
@@ -463,15 +474,12 @@ class ItemsQuery extends APIQuery {
                     }
                     console.log(`Error in items API query: ${error.message}`, error.path);
                     if (badItem) {
-                        console.log(badItem)
+                        console.log(badItem);
                     }
                 }
             }
             // only throw error if this is for prebuild or data wasn't returned
-            if (
-                prebuild || !itemData.data || 
-                !itemData.data.items || !itemData.data.items.length
-            ) {
+            if (prebuild || !itemData.data || !itemData.data.items || !itemData.data.items.length) {
                 return Promise.reject(new Error(itemData.errors[0].message));
             }
         }
@@ -492,15 +500,12 @@ class ItemsQuery extends APIQuery {
                     }
                     console.log(`Error in items API query: ${error.message}`, error.path);
                     if (badItem) {
-                        console.log(badItem)
+                        console.log(badItem);
                     }
                 }
             }
             // only throw error if this is for prebuild or data wasn't returned
-            if (
-                prebuild || !miscData.data || 
-                !miscData.data.fleaMarket
-            ) {
+            if (prebuild || !miscData.data || !miscData.data.fleaMarket) {
                 return Promise.reject(new Error(miscData.errors[0].message));
             }
         }
@@ -516,14 +521,15 @@ class ItemsQuery extends APIQuery {
                 let gridPockets = [];
                 if (itemGrids[rawItem.id]) {
                     gridPockets = itemGrids[rawItem.id];
-                } 
-                else if (rawItem.properties.grids.length === 1) {
-                    gridPockets = [{
-                        row: 0,
-                        col: 0,
-                        width: rawItem.properties.grids[0].width,
-                        height: rawItem.properties.grids[0].height,
-                    }];
+                } else if (rawItem.properties.grids.length === 1) {
+                    gridPockets = [
+                        {
+                            row: 0,
+                            col: 0,
+                            width: rawItem.properties.grids[0].width,
+                            height: rawItem.properties.grids[0].height,
+                        },
+                    ];
                 }
 
                 if (gridPockets.length > 1) {
@@ -533,12 +539,10 @@ class ItemsQuery extends APIQuery {
                     grid.width = Math.max(
                         ...gridPockets.map((pocket) => pocket.col + pocket.width),
                     );
-                }
-                else if (rawItem.properties.grids.length >= 1) {
+                } else if (rawItem.properties.grids.length >= 1) {
                     grid.height = rawItem.properties.grids[0].height;
                     grid.width = rawItem.properties.grids[0].width;
-                }
-                else {
+                } else {
                     grid.height = rawItem.height;
                     grid.width = rawItem.width;
                 }
@@ -547,20 +551,30 @@ class ItemsQuery extends APIQuery {
             rawItem.grid = grid;
 
             rawItem.properties = {
-                ...rawItem.properties
+                ...rawItem.properties,
             };
 
             // calculate flea market fee
-            const fee = fleaMarketFee(rawItem.basePrice, rawItem.lastLowPrice, 1, flea.sellOfferFeeRate, flea.sellRequirementFeeRate);
+            const fee = fleaMarketFee(
+                rawItem.basePrice,
+                rawItem.lastLowPrice,
+                1,
+                flea.sellOfferFeeRate,
+                flea.sellRequirementFeeRate,
+            );
             rawItem.fee = fee;
 
             const container = rawItem.properties?.slots || rawItem.properties?.grids;
             if (container) {
                 for (const slot of container) {
-                    slot.filters.allowedCategories = slot.filters.allowedCategories.map(cat => cat.id);
-                    slot.filters.allowedItems = slot.filters.allowedItems.map(it => it.id);
-                    slot.filters.excludedCategories = slot.filters.excludedCategories.map(cat => cat.id);
-                    slot.filters.excludedItems = slot.filters.excludedItems.map(it => it.id);
+                    slot.filters.allowedCategories = slot.filters.allowedCategories.map(
+                        (cat) => cat.id,
+                    );
+                    slot.filters.allowedItems = slot.filters.allowedItems.map((it) => it.id);
+                    slot.filters.excludedCategories = slot.filters.excludedCategories.map(
+                        (cat) => cat.id,
+                    );
+                    slot.filters.excludedItems = slot.filters.excludedItems.map((it) => it.id);
                 }
             }
 

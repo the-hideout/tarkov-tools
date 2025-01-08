@@ -1,32 +1,33 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import {renderToStaticMarkup} from "react-dom/server";
-import { Link, useNavigate } from "react-router-dom";
+import { renderToStaticMarkup } from 'react-dom/server';
+import { Link, useNavigate } from 'react-router-dom';
 import ImageViewer from 'react-simple-image-viewer';
 import { useTranslation } from 'react-i18next';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import ResizeObserver from 'resize-observer-polyfill';
+import useResponsiveScaling from '../../hooks/useResponsiveScaling.jsx';
 
 import './index.css';
 
 const colors = {
-    black: {r: 0, g: 0, b: 0, alpha: 77/255},
-    blue: {r: 28, g: 65, b: 86, alpha: 77/255},
-    default: {r: 127, g: 127, b: 127, alpha: 77/255},
-    green: {r: 21, g: 45, b: 0, alpha: 77/255},
-    grey: {r: 29, g: 29, b: 29, alpha: 77/255},
-    orange: {r: 60, g: 25, b: 0, alpha: 77/255},
-    red: {r: 109, g: 36, b: 24, alpha: 77/255},
-    violet: {r: 76, g: 42, b: 85, alpha: 77/255},
-    yellow: {r: 104, g: 102, b: 40, alpha: 77/255},
+    black: { r: 0, g: 0, b: 0, alpha: 77 / 255 },
+    blue: { r: 28, g: 65, b: 86, alpha: 77 / 255 },
+    default: { r: 127, g: 127, b: 127, alpha: 77 / 255 },
+    green: { r: 21, g: 45, b: 0, alpha: 77 / 255 },
+    grey: { r: 29, g: 29, b: 29, alpha: 77 / 255 },
+    orange: { r: 60, g: 25, b: 0, alpha: 77 / 255 },
+    red: { r: 109, g: 36, b: 24, alpha: 77 / 255 },
+    violet: { r: 76, g: 42, b: 85, alpha: 77 / 255 },
+    yellow: { r: 104, g: 102, b: 40, alpha: 77 / 255 },
 };
 
-function ItemImage({ 
-    item, 
-    backgroundScale = 1, 
-    imageField = 'baseImageLink', 
-    nonFunctionalOverlay = false, 
-    imageViewer = false, 
+function ItemImage({
+    item,
+    backgroundScale = 1,
+    imageField = 'baseImageLink',
+    nonFunctionalOverlay = false,
+    imageViewer = false,
     children = '',
     attributes = [],
     count,
@@ -39,6 +40,10 @@ function ItemImage({
     station,
     className,
     style,
+    imageStyle,
+    maxImageWidth,
+    maxImageHeight,
+    responsive = false,
 }) {
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -57,7 +62,8 @@ function ItemImage({
     }, []);*/
 
     const refImage = useRef();
-    const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0});
+    const scaler = useResponsiveScaling();
+    const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
     useEffect(() => {
         if (!refImage.current) {
             return;
@@ -66,7 +72,10 @@ function ItemImage({
             if (!refImage.current) {
                 return;
             }
-            if (refImage.current.width === imageDimensions.width && refImage.current.height === imageDimensions.height) {
+            if (
+                refImage.current.width === imageDimensions.width &&
+                refImage.current.height === imageDimensions.height
+            ) {
                 return;
             }
             setImageDimensions({
@@ -74,7 +83,7 @@ function ItemImage({
                 height: refImage.current.height,
             });
         });
-        const intersectionObserver = new IntersectionObserver(entries => {
+        const intersectionObserver = new IntersectionObserver((entries) => {
             if (!refImage.current) {
                 return;
             }
@@ -95,13 +104,11 @@ function ItemImage({
             return <></>;
         }
         const loadingStyle = {
-            WebkitMask:`url(${item[imageField]}) center/cover`,
-                  mask:`url(${item[imageField]}) center/cover`,
+            WebkitMask: `url(${item[imageField]}) center/cover`,
+            mask: `url(${item[imageField]}) center/cover`,
         };
-        
-        return (
-            <div className="item-image-mask" style={loadingStyle}></div>
-        );
+
+        return <div className="item-image-mask" style={loadingStyle}></div>;
     }, [item, imageField]);
 
     const [isViewerOpen, setIsViewerOpen] = useState(false);
@@ -110,7 +117,7 @@ function ItemImage({
             return;
         }
         setIsViewerOpen(true);
-      }, [imageViewer]);
+    }, [imageViewer]);
     const closeImageViewer = () => {
         setIsViewerOpen(false);
     };
@@ -122,28 +129,46 @@ function ItemImage({
     };
 
     const imageElement = useMemo(() => {
-        const imageStyle = {};
+        const iStyle = {};
         if (item.types?.includes('loading')) {
-            imageStyle.display = 'none';
+            iStyle.display = 'none';
         }
         if (imageViewer) {
-            imageStyle.cursor = 'zoom-in';
+            iStyle.cursor = 'zoom-in';
         }
         //console.log(dimensions);
-        const img = <img ref={refImage} onClick={openImageViewer} src={item[imageField]} alt={item.name} loading="lazy" style={imageStyle}/>;
+        if (responsive) {
+
+        }
+        if (responsive && maxImageWidth) {
+            iStyle.maxWidth = maxImageWidth * scaler;
+            //iStyle.height = maxImageHeight * scaler;
+        }
+        if (responsive && maxImageHeight) {
+            iStyle.maxHeight = maxImageHeight * scaler;
+        }
+
+        const img = (
+            <img
+                ref={refImage}
+                onClick={openImageViewer}
+                src={item[imageField]}
+                alt={item.name}
+                loading="lazy"
+                style={{...iStyle, ...imageStyle}}
+            />
+        );
         if (linkToItem && !item.types.includes('quest')) {
-            return <Link to={`/item/${item.normalizedName}`}>
-                {img}
-            </Link>;
+            return <Link to={`/item/${item.normalizedName}`}>{img}</Link>;
         }
         return img;
-    }, [item, refImage, imageField, openImageViewer, imageViewer, linkToItem]);
+    }, [item, refImage, imageField, openImageViewer, imageViewer, linkToItem, imageStyle, responsive, scaler, maxImageWidth, maxImageHeight]);
 
     const imageScale = useMemo(() => {
-        const w = imageDimensions.width || (item.width * 63) + 1
-        return w / ((item.width * 63) + 1);
+        const w = imageDimensions.width || item.width * 63 + 1;
+        return w / (item.width * 63 + 1);
     }, [imageDimensions, item]);
-    
+
     const textSize = useMemo(() => {
         return Math.min(12 * imageScale, 16);
     }, [imageScale]);
@@ -158,32 +183,42 @@ function ItemImage({
     }, [item]);
 
     const nonFunctionalElement = useMemo(() => {
-        if (!nonFunctionalOverlay || !item.types.includes('gun') || !item.properties?.defaultPreset) {
+        if (
+            !nonFunctionalOverlay ||
+            !item.types.includes('gun') ||
+            !item.properties?.defaultPreset
+        ) {
             return <></>;
         }
         const nonFunctionalStyle = {
             position: 'absolute',
             boxSizing: 'border-box',
-            top: `${1*backgroundScale}px`, 
-            left: `${1*backgroundScale}px`,
-            height: `calc(100% - ${2*backgroundScale}px)`,
-            width:  `calc(100% - ${2*backgroundScale}px)`,
+            top: `${1 * backgroundScale}px`,
+            left: `${1 * backgroundScale}px`,
+            height: `calc(100% - ${2 * backgroundScale}px)`,
+            width: `calc(100% - ${2 * backgroundScale}px)`,
             fallbacks: [
-                {width: `-webkit-calc(100% - ${2*backgroundScale}px)`},
-                {width:    `-moz-calc(100% - ${2*backgroundScale}px)`},
-                {height: `-webkit-calc(100% - ${2*backgroundScale}px)`},
-                {height:    `-moz-calc(100% - ${2*backgroundScale}px)`},
+                { width: `-webkit-calc(100% - ${2 * backgroundScale}px)` },
+                { width: `-moz-calc(100% - ${2 * backgroundScale}px)` },
+                { height: `-webkit-calc(100% - ${2 * backgroundScale}px)` },
+                { height: `-moz-calc(100% - ${2 * backgroundScale}px)` },
             ],
             backgroundColor: '#4400004f',
         };
         if (imageViewer) {
             nonFunctionalStyle.cursor = 'zoom-in';
         }
-        return <div className='item-nonfunctional-mask' onClick={openImageViewer} style={nonFunctionalStyle}/>;
+        return (
+            <div
+                className="item-nonfunctional-mask"
+                onClick={openImageViewer}
+                style={nonFunctionalStyle}
+            />
+        );
     }, [item, nonFunctionalOverlay, backgroundScale, openImageViewer, imageViewer]);
 
     const toolOverride = useMemo(() => {
-        return isTool || attributes?.some(att => att.name === 'tool');
+        return isTool || attributes?.some((att) => att.name === 'tool');
     }, [attributes, isTool]);
 
     const borderColor = useMemo(() => {
@@ -198,14 +233,12 @@ function ItemImage({
         }
         return color;
     }, [item, toolOverride, nonFunctional]);
-    
-
     const backgroundStyle = useMemo(() => {
         if (imageField === 'iconLink') {
             const iconStyle = {
                 position: 'relative',
                 maxHeight: `${imageDimensions.height || 64}px`,
-                maxWidth:  `${imageDimensions.width || 64}px`,
+                maxWidth: `${imageDimensions.width || 64}px`,
             };
             if (toolOverride || nonFunctional) {
                 iconStyle.outline = `1px solid ${borderColor}`;
@@ -215,55 +248,132 @@ function ItemImage({
         }
         let sizeFactor = 1;
         if (imageField === 'image512pxLink') {
-            sizeFactor = 512 / ((item.width * 63) + 1);
+            sizeFactor = 512 / (item.width * 63 + 1);
             if (item.height > item.width) {
-                sizeFactor = 512 / ((item.height * 63) + 1);
+                sizeFactor = 512 / (item.height * 63 + 1);
             }
         }
         if (imageField === 'image8xLink') {
             sizeFactor = 8;
         }
-        let width = imageDimensions.width || (((item.width * 63) + 1) * sizeFactor);
-        let height = imageDimensions.height || (((item.height * 63) + 1) * sizeFactor);
-        const gridSvg = () => 
+        if (imageField === 'inspectImageLink' && responsive) {
+            const loadOutImgStyle = {
+                maxHeight: `${(maxImageHeight || imageDimensions.height) * scaler}px`,
+                maxWidth: `${(maxImageWidth || imageDimensions.width) * scaler}px`,
+                position: 'relative',
+            };
+            return loadOutImgStyle;
+        }
+        let width = imageDimensions.width || (item.width * 63 + 1) * sizeFactor;
+        let height = imageDimensions.height || (item.height * 63 + 1) * sizeFactor;
+        /*if (responsive) {
+            width = width * scaler;
+            height = height * scaler;
+        }*/
+        const gridSvg = () => (
             <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
                 <defs>
-                    <pattern id="smallChecks" width={2*backgroundScale} height={2*backgroundScale} patternUnits="userSpaceOnUse">
-                        <rect x="0" y="0" width={1*backgroundScale} height={1*backgroundScale} style={{fill:'rgba(29, 29, 29, .62)'}} />
-                        <rect x="0" y={1*backgroundScale} width={1*backgroundScale} height={1*backgroundScale} style={{fill:'rgba(44, 44, 44, .62)'}} />
-                        <rect x={1*backgroundScale} y="0" width={1*backgroundScale} height={1*backgroundScale} style={{fill:'rgba(44, 44, 44, .62)'}} />
-                        <rect x={1*backgroundScale} y={1*backgroundScale} width={1*backgroundScale} height={1*backgroundScale} style={{fill:'rgba(29, 29, 29, .62)'}} />
+                    <pattern
+                        id="smallChecks"
+                        width={2 * backgroundScale}
+                        height={2 * backgroundScale}
+                        patternUnits="userSpaceOnUse"
+                    >
+                        <rect
+                            x="0"
+                            y="0"
+                            width={1 * backgroundScale}
+                            height={1 * backgroundScale}
+                            style={{ fill: 'rgba(29, 29, 29, .62)' }}
+                        />
+                        <rect
+                            x="0"
+                            y={1 * backgroundScale}
+                            width={1 * backgroundScale}
+                            height={1 * backgroundScale}
+                            style={{ fill: 'rgba(44, 44, 44, .62)' }}
+                        />
+                        <rect
+                            x={1 * backgroundScale}
+                            y="0"
+                            width={1 * backgroundScale}
+                            height={1 * backgroundScale}
+                            style={{ fill: 'rgba(44, 44, 44, .62)' }}
+                        />
+                        <rect
+                            x={1 * backgroundScale}
+                            y={1 * backgroundScale}
+                            width={1 * backgroundScale}
+                            height={1 * backgroundScale}
+                            style={{ fill: 'rgba(29, 29, 29, .62)' }}
+                        />
                     </pattern>
                     <pattern id="gridCell" width="100%" height="100%" patternUnits="userSpaceOnUse">
-                        <rect x="0" y="0" width="100%" height="100%" fill="url(#smallChecks)"/>
-                        <line x1="0" x2="0" y1="0" y2="100%" stroke="rgba(50, 50, 50, .75)" strokeWidth={`${2*backgroundScale}`}/>
-                        <line x1="0" x2="100%" y1="0" y2="0" stroke="rgba(50, 50, 50, .75)" strokeWidth={`${2*backgroundScale}`}/>
-                        <rect x="0" y="0" width="100%" height="100%" style={{fill:`rgba(${colorString})`}} />
+                        <rect x="0" y="0" width="100%" height="100%" fill="url(#smallChecks)" />
+                        <line
+                            x1="0"
+                            x2="0"
+                            y1="0"
+                            y2="100%"
+                            stroke="rgba(50, 50, 50, .75)"
+                            strokeWidth={`${2 * backgroundScale}`}
+                        />
+                        <line
+                            x1="0"
+                            x2="100%"
+                            y1="0"
+                            y2="0"
+                            stroke="rgba(50, 50, 50, .75)"
+                            strokeWidth={`${2 * backgroundScale}`}
+                        />
+                        <rect
+                            x="0"
+                            y="0"
+                            width="100%"
+                            height="100%"
+                            style={{ fill: `rgba(${colorString})` }}
+                        />
                     </pattern>
                 </defs>
-                <rect width="100%" height="100%" fill="#000"/>
-                <rect width="100%" height="100%" fill="url(#gridCell)"/>
-            </svg>;
+                <rect width="100%" height="100%" fill="#000" />
+                <rect width="100%" height="100%" fill="url(#gridCell)" />
+            </svg>
+        );
         const backgroundStyle = {
             backgroundImage: `url('data:image/svg+xml,${encodeURIComponent(renderToStaticMarkup(gridSvg()))}')`,
             backgroundSize: `${gridPercentX}% ${gridPercentY}%`,
             position: 'relative',
-            outline: `${1*backgroundScale}px solid ${borderColor}`,
-            outlineOffset: `-${1*backgroundScale}px`,
+            outline: `${1 * backgroundScale}px solid ${borderColor}`,
+            outlineOffset: `-${1 * backgroundScale}px`,
             maxHeight: `${height}px`,
-            maxWidth:  `${width}px`,
+            maxWidth: `${width}px`,
         };
         return backgroundStyle;
-    }, [backgroundScale, borderColor, colorString, imageField, gridPercentX, gridPercentY, item, imageDimensions, toolOverride, nonFunctional]);
+    }, [
+        backgroundScale,
+        borderColor,
+        colorString,
+        imageField,
+        gridPercentX,
+        gridPercentY,
+        item,
+        imageDimensions,
+        toolOverride,
+        nonFunctional,
+        scaler,
+        maxImageWidth,
+        maxImageHeight,
+        responsive,
+    ]);
 
     const imageTextStyle = useMemo(() => {
         if (imageField === 'iconLink' || item.types.includes('loading')) {
-            return {display: 'none'};
+            return { display: 'none' };
         }
         const style = {
             position: 'absolute',
             top: `${Math.min(backgroundScale + imageScale, 4)}px`,
-            right: `${Math.min(backgroundScale + (1.5*imageScale), 7)}px`,
+            right: `${Math.min(backgroundScale + 1.5 * imageScale, 7)}px`,
             cursor: 'default',
             color: '#a4aeb4',
             fontWeight: 'bold',
@@ -274,8 +384,11 @@ function ItemImage({
         if (linkToItem) {
             style.cursor = 'pointer';
         }
+        if (responsive) {
+            //style.fontSize = `${Math.min(26 * scaler, 12)}px`;
+        }
         return style;
-    }, [imageField, imageScale, textSize, backgroundScale, item, linkToItem]);
+    }, [imageField, imageScale, textSize, backgroundScale, item, linkToItem, responsive]);
 
     const imageTextClick = useMemo(() => {
         if (!linkToItem) {
@@ -287,11 +400,13 @@ function ItemImage({
     }, [item, linkToItem, navigate]);
 
     const imageText = useMemo(() => {
-        let element = <div style={imageTextStyle} onClick={imageTextClick}>{item.shortName}</div>;
-        if (fullNameTooltip && imageTextStyle.dispolay !== 'none') {
-            element = <Tippy content={item.name}>
-                {element}
-            </Tippy>;
+        let element = (
+            <div style={imageTextStyle} onClick={imageTextClick}>
+                {item.shortName}
+            </div>
+        );
+        if (fullNameTooltip && imageTextStyle.display !== 'none') {
+            element = <Tippy content={item.name}>{element}</Tippy>;
         }
         return element;
     }, [fullNameTooltip, imageTextClick, imageTextStyle, item]);
@@ -334,40 +449,52 @@ function ItemImage({
     }, [imageScale, item]);
 
     return (
-        <div ref={refContainer} style={{...backgroundStyle, ...style}} className={className}>
+        <div ref={refContainer} style={{ ...backgroundStyle, ...style }} className={className}>
             {loadingImage}
             {imageElement}
             {nonFunctionalElement}
             {imageText}
             <div style={itemExtraStyle}>
-                {isFIR && <Tippy
-                    placement="bottom"
-                    content={t('Found In Raid')}
-                >
-                    <img alt="" className="item-image-fir" loading="lazy" src={`${process.env.PUBLIC_URL}/images/icon-fir.png`} />
-                </Tippy>}
+                {isFIR && (
+                    <Tippy placement="bottom" content={t('Found In Raid')}>
+                        <img
+                            alt=""
+                            className="item-image-fir"
+                            loading="lazy"
+                            src={`${process.env.PUBLIC_URL}/images/icon-fir.png`}
+                        />
+                    </Tippy>
+                )}
                 {count && <span className="item-image-count">{count}</span>}
             </div>
-            {trader && <div style={traderElementStyle}>
-                <Tippy
-                    placement="top"
-                    content={trader.name}
-                >
-                    <Link to={`/trader/${trader.normalizedName}`}>
-                        <img alt={trader.name} src={`/images/traders/${trader.normalizedName}-icon.jpg`} style={traderImageStyle}/>
-                    </Link>
-                </Tippy>
-            </div>}
-            {station && <div style={traderElementStyle}>
-                <Tippy
-                    placement="top"
-                    content={station.name}
-                >
-                    <Link to={`/hideout-profit/?station=${station.normalizedName}&all=true&search=${item.name}`}>
-                        <img alt={station.name} src={station.imageLink} style={traderImageStyle}/>
-                    </Link>
-                </Tippy>
-            </div>}
+            {trader && (
+                <div style={traderElementStyle}>
+                    <Tippy placement="top" content={trader.name}>
+                        <Link to={`/trader/${trader.normalizedName}`}>
+                            <img
+                                alt={trader.name}
+                                src={`/images/traders/${trader.normalizedName}-icon.jpg`}
+                                style={traderImageStyle}
+                            />
+                        </Link>
+                    </Tippy>
+                </div>
+            )}
+            {station && (
+                <div style={traderElementStyle}>
+                    <Tippy placement="top" content={station.name}>
+                        <Link
+                            to={`/hideout-profit/?station=${station.normalizedName}&all=true&search=${item.name}`}
+                        >
+                            <img
+                                alt={station.name}
+                                src={station.imageLink}
+                                style={traderImageStyle}
+                            />
+                        </Link>
+                    </Tippy>
+                </div>
+            )}
             {children}
             {isViewerOpen && (
                 <ImageViewer
@@ -377,7 +504,7 @@ function ItemImage({
                     disableScroll={true}
                     closeOnClickOutside={true}
                     onClose={closeImageViewer}
-                    style={{                
+                    style={{
                         maxWidth: '100%',
                         maxHeight: '100%',
                     }}

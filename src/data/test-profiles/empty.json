@@ -1,0 +1,681 @@
+{
+    "aid": 5598985,
+    "info": {
+        "nickname": "applefrittr",
+        "side": "Bear",
+        "experience": 1367682,
+        "memberCategory": 2,
+        "selectedMemberCategory": 2
+    },
+    "customization": {
+        "head": "5cc084dd14c02e000b0550a3",
+        "body": "6295e698e9de5e7b3751c47a",
+        "feet": "65707a89f5a6f1412f0c5f7b",
+        "hands": "62961424869a02221651df53"
+    },
+    "skills": {
+        "Common": [
+            {
+                "Id": "BotReload",
+                "Progress": 0,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": -2147483648
+            },
+            {
+                "Id": "BotSound",
+                "Progress": 0,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": -2147483648
+            },
+            {
+                "Id": "Endurance",
+                "Progress": 1148.40637,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729753553
+            },
+            {
+                "Id": "Strength",
+                "Progress": 1225.64673,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729753793
+            },
+            {
+                "Id": "Vitality",
+                "Progress": 574.796143,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729753793
+            },
+            {
+                "Id": "Health",
+                "Progress": 1055.7666,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729753793
+            },
+            {
+                "Id": "StressResistance",
+                "Progress": 524.947937,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729753793
+            },
+            {
+                "Id": "Metabolism",
+                "Progress": 2076.95483,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729753106
+            },
+            {
+                "Id": "Immunity",
+                "Progress": 111.965736,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729558969
+            },
+            {
+                "Id": "Perception",
+                "Progress": 1014.106,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729753618
+            },
+            {
+                "Id": "Intellect",
+                "Progress": 13.02,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729568635
+            },
+            {
+                "Id": "Attention",
+                "Progress": 1156.84351,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729753617
+            },
+            {
+                "Id": "Charisma",
+                "Progress": 873.2466,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729753618
+            },
+            {
+                "Id": "Pistol",
+                "Progress": 82.2000046,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729750541
+            },
+            {
+                "Id": "Revolver",
+                "Progress": 13.55,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1728790987
+            },
+            {
+                "Id": "SMG",
+                "Progress": 425.909241,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729653336
+            },
+            {
+                "Id": "Assault",
+                "Progress": 571.2419,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729753724
+            },
+            {
+                "Id": "Shotgun",
+                "Progress": 240.813034,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729651901
+            },
+            {
+                "Id": "Sniper",
+                "Progress": 258.222,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729750868
+            },
+            {
+                "Id": "LMG",
+                "Progress": 34.6999931,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1728024507
+            },
+            {
+                "Id": "HMG",
+                "Progress": 0,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 0
+            },
+            {
+                "Id": "Launcher",
+                "Progress": 0,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 0
+            },
+            {
+                "Id": "AttachedLauncher",
+                "Progress": 0,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 0
+            },
+            {
+                "Id": "Throwing",
+                "Progress": 63.6999741,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729749646
+            },
+            {
+                "Id": "Melee",
+                "Progress": 0,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 0
+            },
+            {
+                "Id": "DMR",
+                "Progress": 0,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 0
+            },
+            {
+                "Id": "AimDrills",
+                "Progress": 539.609558,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729753723
+            },
+            {
+                "Id": "TroubleShooting",
+                "Progress": 31.6,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729482181
+            },
+            {
+                "Id": "Surgery",
+                "Progress": 384.7879,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729750002
+            },
+            {
+                "Id": "CovertMovement",
+                "Progress": 313.145081,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729753656
+            },
+            {
+                "Id": "Search",
+                "Progress": 626.9003,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729753567
+            },
+            {
+                "Id": "MagDrills",
+                "Progress": 301.436981,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729753726
+            },
+            {
+                "Id": "FieldMedicine",
+                "Progress": 0,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 0
+            },
+            {
+                "Id": "FirstAid",
+                "Progress": 0,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 0
+            },
+            {
+                "Id": "LightVests",
+                "Progress": 227.948578,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729749604
+            },
+            {
+                "Id": "HeavyVests",
+                "Progress": 275.265625,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729750539
+            },
+            {
+                "Id": "NightOps",
+                "Progress": 0,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 0
+            },
+            {
+                "Id": "SilentOps",
+                "Progress": 0,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 0
+            },
+            {
+                "Id": "WeaponTreatment",
+                "Progress": 0,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 0
+            },
+            {
+                "Id": "Auctions",
+                "Progress": 0,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 0
+            },
+            {
+                "Id": "Cleanoperations",
+                "Progress": 0,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 0
+            },
+            {
+                "Id": "Shadowconnections",
+                "Progress": 0,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 0
+            },
+            {
+                "Id": "Taskperformance",
+                "Progress": 0,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 0
+            },
+            {
+                "Id": "Crafting",
+                "Progress": 126,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1728362172
+            },
+            {
+                "Id": "HideoutManagement",
+                "Progress": 840.86,
+                "PointsEarnedDuringSession": 0,
+                "LastAccess": 1729144095
+            }
+        ],
+        "Mastering": [
+            {
+                "Id": "AKM",
+                "Progress": 183
+            },
+            {
+                "Id": "AK74",
+                "Progress": 438
+            },
+            {
+                "Id": "mosin",
+                "Progress": 161
+            },
+            {
+                "Id": "DEAGLE",
+                "Progress": 7
+            },
+            {
+                "Id": "M590",
+                "Progress": 0
+            },
+            {
+                "Id": "Mk17",
+                "Progress": 21
+            },
+            {
+                "Id": "PP19",
+                "Progress": 44
+            },
+            {
+                "Id": "MP133",
+                "Progress": 0
+            },
+            {
+                "Id": "GLOCK17",
+                "Progress": 15
+            },
+            {
+                "Id": "AKSU",
+                "Progress": 255
+            },
+            {
+                "Id": "SKS",
+                "Progress": 224
+            },
+            {
+                "Id": "M4",
+                "Progress": 23
+            },
+            {
+                "Id": "MP443",
+                "Progress": 24
+            },
+            {
+                "Id": "VPO101",
+                "Progress": 21
+            },
+            {
+                "Id": "r700",
+                "Progress": 0
+            },
+            {
+                "Id": "PM",
+                "Progress": 1
+            },
+            {
+                "Id": "M870",
+                "Progress": 0
+            },
+            {
+                "Id": "MP153",
+                "Progress": 562
+            },
+            {
+                "Id": "STM-9",
+                "Progress": 10
+            },
+            {
+                "Id": "M60",
+                "Progress": 11
+            },
+            {
+                "Id": "UMP45",
+                "Progress": 64
+            },
+            {
+                "Id": "m9",
+                "Progress": 3
+            },
+            {
+                "Id": "SV98",
+                "Progress": 20
+            },
+            {
+                "Id": "G36",
+                "Progress": 20
+            },
+            {
+                "Id": "UZI",
+                "Progress": 71
+            },
+            {
+                "Id": "MP5",
+                "Progress": 102
+            },
+            {
+                "Id": "PL15",
+                "Progress": 6
+            },
+            {
+                "Id": "UZI-PRO",
+                "Progress": 354
+            },
+            {
+                "Id": "SAIGA",
+                "Progress": 26
+            },
+            {
+                "Id": "MDR",
+                "Progress": 129
+            },
+            {
+                "Id": "MP9",
+                "Progress": 403
+            },
+            {
+                "Id": "MCX",
+                "Progress": 2
+            },
+            {
+                "Id": "SVD",
+                "Progress": 0
+            },
+            {
+                "Id": "P226",
+                "Progress": 0
+            },
+            {
+                "Id": "DVL",
+                "Progress": 1
+            },
+            {
+                "Id": "PP-91",
+                "Progress": 12
+            },
+            {
+                "Id": "PB",
+                "Progress": 0
+            },
+            {
+                "Id": "MK47",
+                "Progress": 3
+            },
+            {
+                "Id": "VSS",
+                "Progress": 54
+            },
+            {
+                "Id": "SPEAR",
+                "Progress": 0
+            },
+            {
+                "Id": "SR2",
+                "Progress": 71
+            },
+            {
+                "Id": "RSH12",
+                "Progress": 9
+            },
+            {
+                "Id": "SVT-40",
+                "Progress": 12
+            },
+            {
+                "Id": "USP",
+                "Progress": 0
+            },
+            {
+                "Id": "VSK94",
+                "Progress": 103
+            },
+            {
+                "Id": 57,
+                "Progress": 5
+            },
+            {
+                "Id": "AUG",
+                "Progress": 409
+            },
+            {
+                "Id": "MR43",
+                "Progress": 0
+            },
+            {
+                "Id": "TOZ106",
+                "Progress": 0
+            },
+            {
+                "Id": "VPO_215",
+                "Progress": 1
+            },
+            {
+                "Id": "mp7",
+                "Progress": 0
+            },
+            {
+                "Id": "MPX",
+                "Progress": 0
+            }
+        ],
+        "Points": 0
+    },
+    "equipment": {
+        "Id": "66c4b690fbf6319b1e11c422",
+        "Items": [
+            {
+                "_id": "66c4b690fbf6319b1e11c422",
+                "_tpl": "55d7217a4bdc2d86028b456d"
+            },
+            {
+                "_id": "670a14b67e0ea2f5db119329",
+                "_tpl": "601948682627df266209af05",
+                "parentId": "66c4b690fbf6319b1e11c422",
+                "slotId": "Scabbard",
+                "upd": {
+                    "Repairable": {
+                        "MaxDurability": 90,
+                        "Durability": 90
+                    }
+                }
+            },
+            {
+                "_id": "66c4b690fbf6319b1e11c412",
+                "_tpl": "5857a8bc2459772bad15db29",
+                "parentId": "66c4b690fbf6319b1e11c422",
+                "slotId": "SecuredContainer"
+            },
+            {
+                "_id": "66c4b690fbf6319b1e11c420",
+                "_tpl": "627a4e6b255f7527fb05a0f6",
+                "parentId": "66c4b690fbf6319b1e11c422",
+                "slotId": "Pockets"
+            },
+            {
+                "_id": "66c5489ecc10fe584117bc59",
+                "_tpl": "60b0f988c4449e4cb624c1da",
+                "parentId": "66c4b690fbf6319b1e11c422",
+                "slotId": "ArmBand"
+            }
+        ]
+    },
+    "achievements": {
+        "65141c30ec10ff011f17cc3b": 1704093498,
+        "65141c80ec10ff011f17cc3e": 1704098100,
+        "65141eb5c31fcb0e163577dd": 1704139506,
+        "65141e37cf2f1c285e606361": 1704169569,
+        "6512ea46f7a078264a4376e4": 1704340463,
+        "6527ee4a647c29201011defe": 1704660209,
+        "65141b9859647d2cb3213ca2": 1704695763,
+        "6513eb6e0dc723592b0f9095": 1705130359,
+        "6512eb3ddfb0ae1ee75a0376": 1705305836,
+        "65141bdfcf2f1c285e606446": 1705811984,
+        "6513ee11a3dd9b6aa7159b4a": 1706348261,
+        "6512f1e3be73cc7f07358ed5": 1707112841,
+        "65141dd6303df252af1c72c9": 1712469793,
+        "6513f0a10dc723592b0f90cf": 1715126717,
+        "655b49bc91aa9e07687ae47c": 1717218630,
+        "6513eec00dc723592b0f90cc": 1717356486,
+        "6513efa1b49e3253755f47eb": 1717477240,
+        "66c328aca91e7d66fa1b0b7b": 1724538538,
+        "66b493bc2d8cd3b5e90a3648": 1728368856
+    },
+    "favoriteItems": [],
+    "pmcStats": {
+        "eft": {
+            "totalInGameTime": 17431542,
+            "overAllCounters": {
+                "Items": [
+                    {
+                        "Key": [
+                            "Sessions",
+                            "Pmc"
+                        ],
+                        "Value": 253
+                    },
+                    {
+                        "Key": [
+                            "ExitStatus",
+                            "Killed",
+                            "Pmc"
+                        ],
+                        "Value": 120
+                    },
+                    {
+                        "Key": [
+                            "Kills"
+                        ],
+                        "Value": 808
+                    },
+                    {
+                        "Key": [
+                            "Deaths"
+                        ],
+                        "Value": 120
+                    },
+                    {
+                        "Key": [
+                            "ExitStatus",
+                            "Survived",
+                            "Pmc"
+                        ],
+                        "Value": 118
+                    },
+                    {
+                        "Key": [
+                            "LongestWinStreak",
+                            "Pmc"
+                        ],
+                        "Value": 11
+                    },
+                    {
+                        "Key": [
+                            "ExitStatus",
+                            "Transit",
+                            "Pmc"
+                        ],
+                        "Value": 15
+                    }
+                ]
+            }
+        }
+    },
+    "scavStats": {
+        "eft": {
+            "totalInGameTime": 17431542,
+            "overAllCounters": {
+                "Items": [
+                    {
+                        "Key": [
+                            "Sessions",
+                            "Scav"
+                        ],
+                        "Value": 33
+                    },
+                    {
+                        "Key": [
+                            "ExitStatus",
+                            "Survived",
+                            "Scav"
+                        ],
+                        "Value": 20
+                    },
+                    {
+                        "Key": [
+                            "Kills"
+                        ],
+                        "Value": 11
+                    },
+                    {
+                        "Key": [
+                            "Deaths"
+                        ],
+                        "Value": 13
+                    },
+                    {
+                        "Key": [
+                            "LongestWinStreak",
+                            "Scav"
+                        ],
+                        "Value": 10
+                    },
+                    {
+                        "Key": [
+                            "ExitStatus",
+                            "Killed",
+                            "Scav"
+                        ],
+                        "Value": 11
+                    },
+                    {
+                        "Key": [
+                            "ExitStatus",
+                            "Left",
+                            "Scav"
+                        ],
+                        "Value": 2
+                    }
+                ]
+            }
+        }
+    },
+    "updated": 1729875178618
+}
