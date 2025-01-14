@@ -24,6 +24,7 @@ import { useMapImages } from '../../features/maps/index.js';
 import i18n from '../../i18n.js';
 
 import './index.css';
+import '../../styles/singleEntity.css'
 
 function BossPage(params) {
     const { t } = useTranslation();
@@ -360,22 +361,19 @@ function BossPage(params) {
     // Return the main react component for the boss page
     return [
         <div className="display-wrapper" key={'boss-display-wrapper'}>
-            <div className={'boss-page-wrapper'} key={'boss-page-display-wrapper'}>
-                <div className="boss-information-wrapper">
-                  <div className="boss-top-content">
-
+            <div className={'entity-page-wrapper'} key={'boss-page-display-wrapper'}>
+                <div className="entity-information-wrapper">
+                  <div className="entity-top-content">
                     <img
                         alt={bossData.name}
-                        className={'boss-information-icon'}
+                        className={'entity-information-icon'}
                         loading="lazy"
                         src={bossData.imagePortraitLink}
                         onClick={() => openImageViewer(0)}
                     />
-
                     <div className="title-bar">
-                      <h1>
-                          {bossData.name}
-                      </h1>
+                      <span class="type">{t('Boss')}</span>
+                      <h1>{bossData.name}</h1>
 
                       {bossData.wikiLink &&
                         <span className="wiki-link-wrapper">
@@ -386,27 +384,27 @@ function BossPage(params) {
                       }
                     </div>
                     <div className="main-content">
-                        {i18n.exists(`${bossData.normalizedName}-bio`, { ns: 'bosses' }) &&
-                            <p className='boss-details'>
-                                <Trans i18nKey={`${bossData.normalizedName}-bio`} ns={'bosses'} />
-                            </p>
-                        }
-                        {i18n.exists(`${bossData.normalizedName}-description`, { ns: 'bosses' }) && t(`${bossData.normalizedName}-description`, { ns: 'bosses' }).length > 0 &&
-                            <div>
-                              <h3>{t('Behavior')}</h3>
-                              <p className='boss-details'>
-                                  <Trans i18nKey={`${bossData.normalizedName}-description`} ns={'bosses'} />
-                              </p>
-                            </div>
-                        }
+                      {i18n.exists(`${bossData.normalizedName}-bio`, { ns: 'bosses' }) &&
+                        <p className='entity-details'>
+                          <Trans i18nKey={`${bossData.normalizedName}-bio`} ns={'bosses'} />
+                        </p>
+                      }
+                      {i18n.exists(`${bossData.normalizedName}-description`, { ns: 'bosses' }) && t(`${bossData.normalizedName}-description`, { ns: 'bosses' }).length > 0 &&
+                        <div>
+                          <h3>{t('Behavior')}</h3>
+                          <p className='entity-details'>
+                            <Trans i18nKey={`${bossData.normalizedName}-description`} ns={'bosses'} />
+                          </p>
+                        </div>
+                      }
                     </div>
-                    <div className="boss-properties">
+                    <div className="entity-properties">
                       <PropertyList properties={bossProperties} />
                       {report}
                     </div>
                   </div>
-                  <div className="boss-icon-cont">
-                    <div className="boss-icon-and-link-wrapper"
+                  <div className="entity-icon-cont">
+                    <div className="entity-icon-and-link-wrapper"
                       onClick={() => openImageViewer(0)}
                       style={{ backgroundImage: `url(${bossData.imagePosterLink})` }}
                     />
@@ -414,90 +412,90 @@ function BossPage(params) {
                 </div>
 
                 {isViewerOpen && (
-                    <ImageViewer
-                        src={[bossData.imagePosterLink]}
-                        currentIndex={0}
-                        backgroundStyle={backgroundStyle}
-                        disableScroll={true}
-                        closeOnClickOutside={true}
-                        onClose={closeImageViewer}
-                    />
+                  <ImageViewer
+                    src={[bossData.imagePosterLink]}
+                    currentIndex={0}
+                    backgroundStyle={backgroundStyle}
+                    disableScroll={true}
+                    closeOnClickOutside={true}
+                    onClose={closeImageViewer}
+                  />
                 )}
 
                 <div className="information-section boss-loot has-table">
                   <h2 key={'boss-loot-header'}>
-                      <Icon
-                        path={mdiDiamondStone}
-                        size={1.5}
-                        className="icon-with-text"
-                      />
-                      {t('Special Boss Loot')}
+                    <Icon
+                      path={mdiDiamondStone}
+                      size={1.5}
+                      className="icon-with-text"
+                    />
+                    {t('Special Boss Loot')}
                   </h2>
                   <SmallItemTable
-                      idFilter={loot.reduce((prev, current) => {
-                          prev.push(current.id);
-                          return prev;
-                      }, [])}
-                      attachmentMap={attachmentMap}
-                      showGunDefaultPresetImages={true}
-                      fleaValue
-                      traderValue
+                    idFilter={loot.reduce((prev, current) => {
+                      prev.push(current.id);
+                      return prev;
+                    }, [])}
+                    attachmentMap={attachmentMap}
+                    showGunDefaultPresetImages={true}
+                    fleaValue
+                    traderValue
                   />
                 </div>
 
                 <div className="information-section spawn-locations has-table">
                   {spawnStatsMsg.length > 0 && 
                   <>
-                      <h2 key={'boss-spawn-table-header'}>
-                          <Icon
-                              path={mdiMapLegend}
-                              size={1.5}
-                              className="icon-with-text"
-                          />
-                          {t('Spawn Locations')}
-                      </h2>
-                      <ul>
-                          <Trans i18nKey="boss-spawn-table-description">
-                              <li>Map: The name of the map which the boss can spawn on</li>
-                              <li>Spawn Location: The exact location on the given map which the boss can spawn</li>
-                              <li>Chance: If the "Spawn Chance" is activated for the map, this is the estimated chance that the boss will spawn at a given location on that map</li>
-                          </Trans>
-                      </ul>
-                      <DataTable
-                          key="boss-spawn-table"
-                          columns={columnsLocations}
-                          data={spawnLocations}
-                          disableSortBy={false}
-                          sortBy={'map'}
-                          autoResetSortBy={false}
-                      />
-                  </>}
-                </div>
-
-                <div className="information-section boss-escorts has-table">
-                  <h2 key={'boss-escort-table-header'}>
-                      <Icon
-                        path={mdiAccountGroup}
-                        size={1.5}
-                        className="icon-with-text"
-                      />
-                      {t('Boss Escorts')}
+                  <h2 key={'boss-spawn-table-header'}>
+                    <Icon
+                      path={mdiMapLegend}
+                      size={1.5}
+                      className="icon-with-text"
+                    />
+                    {t('Spawn Locations')}
                   </h2>
-                  <div className="content">
-                    {escorts.length > 0 ?
-                        <DataTable
-                            key="boss-escort-table"
-                            columns={columnsEscorts}
-                            data={escorts}
-                            disableSortBy={false}
-                            sortBy={'map'}
-                            autoResetSortBy={false}
-                        />
-                        :
-                        <p>{t('This boss does not have any escorts')}</p>
-                    }
-                  </div>
+                  <ul>
+                    <Trans i18nKey="boss-spawn-table-description">
+                      <li>Map: The name of the map which the boss can spawn on</li>
+                      <li>Spawn Location: The exact location on the given map which the boss can spawn</li>
+                      <li>Chance: If the "Spawn Chance" is activated for the map, this is the estimated chance that the boss will spawn at a given location on that map</li>
+                    </Trans>
+                  </ul>
+                  <DataTable
+                      key="boss-spawn-table"
+                      columns={columnsLocations}
+                      data={spawnLocations}
+                      disableSortBy={false}
+                      sortBy={'map'}
+                      autoResetSortBy={false}
+                  />
+                </>}
+              </div>
+
+              <div className="information-section boss-escorts has-table">
+                <h2 key={'boss-escort-table-header'}>
+                    <Icon
+                      path={mdiAccountGroup}
+                      size={1.5}
+                      className="icon-with-text"
+                    />
+                    {t('Boss Escorts')}
+                </h2>
+                <div className="content">
+                  {escorts.length > 0 ?
+                    <DataTable
+                      key="boss-escort-table"
+                      columns={columnsEscorts}
+                      data={escorts}
+                      disableSortBy={false}
+                      sortBy={'map'}
+                      autoResetSortBy={false}
+                    />
+                    :
+                    <p>{t('This boss does not have any escorts')}</p>
+                  }
                 </div>
+              </div>
             </div>
         </div>
     ]

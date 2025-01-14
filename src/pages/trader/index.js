@@ -28,6 +28,7 @@ import useTradersData from '../../features/traders/index.js';
 import i18n from '../../i18n.js';
 
 import './index.css';
+import '../../styles/singleEntity.css'
 
 const romanLevels = {
     0: '0',
@@ -140,38 +141,47 @@ function Trader() {
             card='summary_large_image'
             key="seo-wrapper"
         />,
-        <div className="page-wrapper" key={'page-wrapper'}>
-            <div className="trader-information-grid">
-                <div className="trader-information-wrapper">
-                    <h1>
-                        {trader.name}
-                        <img
-                            alt={trader.name}
-                            className={'trader-information-icon'}
-                            loading="lazy"
-                            src={`${process.env.PUBLIC_URL}/images/traders/${trader.normalizedName}-portrait.png`}
-                            onClick={() => openImageViewer(0)}
-                        />
-                    </h1>
-                    <span className="wiki-link-wrapper">
-                        <a href={`https://escapefromtarkov.fandom.com/wiki/${trader.normalizedName}`} target="_blank" rel="noopener noreferrer">
-                            {t('Wiki')}
-                        </a>
-                    </span>
-                    <p className='trader-details'>
-                        {trader.description}
-                    </p>
+        <div class="display-wrapper">
+          <div className={'entity-page-wrapper'} key={'trader-page-display-wrapper'}> 
+            <div className="entity-information-wrapper">
+              <div className="entity-top-content">
+                <img
+                  alt={trader.name}
+                  className={'entity-information-icon'}
+                  loading="lazy"
+                  src={`${process.env.PUBLIC_URL}/images/traders/${trader.normalizedName}-portrait.png`}
+                  onClick={() => openImageViewer(0)}
+                />
+                <div className="title-bar">
+                  <span class="type">
+                    {t('Trader')}
+                  </span>
+                  <h1>
+                    {trader.name}
+                  </h1>
+                  <span className="wiki-link-wrapper">
+                    <a href={`https://escapefromtarkov.fandom.com/wiki/${trader.normalizedName}`} target="_blank" rel="noopener noreferrer">
+                      {t('Wiki')}
+                    </a>
+                  </span>
                 </div>
-                <PropertyList properties={levelProperties} />
-                <div className="trader-icon-and-link-wrapper">
-                    <img
-                        alt={trader.name}
-                        loading="lazy"
-                        src={`${process.env.PUBLIC_URL}/images/traders/${trader.normalizedName}.jpg`}
-                        onClick={() => openImageViewer(0)}
-                    />
+                <div className="main-content">
+                  <p class="entity-details">
+                    {trader.description}
+                  </p>
                 </div>
+                <div className="entity-properties">
+                  <PropertyList properties={levelProperties} />
+                </div>
+              </div>
+              <div className="entity-icon-cont">
+                <div className="entity-icon-and-link-wrapper"
+                  onClick={() => openImageViewer(0)}
+                  style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/images/traders/${trader.normalizedName}.jpg)` }}
+                />
+              </div>
             </div>
+
             {isViewerOpen && (
                 <ImageViewer
                     src={[`${process.env.PUBLIC_URL}/images/traders/${trader.normalizedName}.jpg`]}
@@ -182,92 +192,94 @@ function Trader() {
                     onClose={closeImageViewer}
                 />
             )}
-            <div className="page-headline-wrapper">
-                <h1>
-                    <cite>
-                        {resetTime}
-                    </cite>
-                </h1>
-                <Filter center>
-                    {buyBackTableEnabled ? (
-                        <ButtonGroupFilter>
-                            <ButtonGroupFilterButton
-                                tooltipContent={
-                                    <>
-                                        {t('Items with the best cash back prices for leveling')}
-                                    </>
-                                }
-                                selected={selectedTable === 'spending'}
-                                content={t('Spending')}
-                                type="text"
-                                onClick={setSelectedTable.bind(undefined, 'spending')}
-                            />
-                        </ButtonGroupFilter>
-                    ) : ''}
-                    {traderOffersTableEnabled ? (
-                        <ButtonGroupFilter>
-                            {trader.levels.map(level => (
-                                <ButtonGroupFilterButton
-                                    key={level.level}
-                                    tooltipContent={
-                                        <>
-                                            {t('Unlocks at Loyalty Level {{level}}', { level: level.level})}
-                                        </>
-                                    }
-                                    selected={selectedTable === level.level}
-                                    content={romanLevels[level.level]}
-                                    onClick={setSelectedTable.bind(undefined, level.level)}
-                                />
-                            ))}
-                        </ButtonGroupFilter>
-                    ) : ''}
-                    <ButtonGroupFilter>
-                        <ButtonGroupFilterButton
-                            tooltipContent={
-                                <>
-                                    {t('Tasks given by {{traderName}}', {traderName: trader.name})}
-                                </>
-                            }
-                            selected={selectedTable === 'tasks'}
-                            content={t('Tasks')}
-                            type="text"
-                            onClick={setSelectedTable.bind(undefined, 'tasks')}
-                        />
-                    </ButtonGroupFilter>
-                    <InputFilter
-                        defaultValue={nameFilter}
-                        onChange={handleNameFilterChange}
-                        placeholder={t('filter on item')}
-                    />
-                </Filter>
-            </div>
 
-            {selectedTable !== 'tasks' && (
-                <SmallItemTable
-                    nameFilter={nameFilter}
-                    traderFilter={trader.normalizedName}
-                    loyaltyLevelFilter={Number.isInteger(selectedTable) ? selectedTable : false}
-                    traderBuybackFilter={selectedTable === 'spending' ? true : false}
-                    maxItems={selectedTable === 'spending' ? 50 : false}
-                    fleaPrice={selectedTable === 'spending' ? false : 1}
-                    traderOffer={selectedTable === 'spending' ? false : 2}
-                    cheapestPrice={selectedTable === 'spending' ? 1 : false}
-                    traderValue={selectedTable === 'spending' ? 2 : false}
-                    traderBuyback={selectedTable === 'spending' ? 3 : false}
-                    sortBy={selectedTable === 'spending' ? 'traderBuyback' : null}
-                    sortByDesc={true}
-                    showAllSources={selectedTable === 'spending' ? false : true}
-                />
-            )}
-            {selectedTable === 'tasks' && (
-                <QuestTable
-                    giverFilter={trader.normalizedName}
-                    nameFilter={nameFilter}
-                    questRequirements={1}
-                    minimumLevel={2}
-                />
-            )}
-        </div>,
+            <div className="page-headline-wrapper">
+              <h1>
+                <cite>
+                  {resetTime}
+                </cite>
+              </h1>
+              <Filter center>
+                {buyBackTableEnabled ? (
+                  <ButtonGroupFilter>
+                    <ButtonGroupFilterButton
+                      tooltipContent={
+                        <>
+                          {t('Items with the best cash back prices for leveling')}
+                        </>
+                        }
+                      selected={selectedTable === 'spending'}
+                      content={t('Spending')}
+                      type="text"
+                      onClick={setSelectedTable.bind(undefined, 'spending')}
+                    />
+                    </ButtonGroupFilter>
+                  ) : ''}
+                  {traderOffersTableEnabled ? (
+                    <ButtonGroupFilter>
+                      {trader.levels.map(level => (
+                        <ButtonGroupFilterButton
+                          key={level.level}
+                          tooltipContent={
+                            <>
+                              {t('Unlocks at Loyalty Level {{level}}', { level: level.level})}
+                            </>
+                          }
+                          selected={selectedTable === level.level}
+                          content={romanLevels[level.level]}
+                          onClick={setSelectedTable.bind(undefined, level.level)}
+                        />
+                      ))}
+                    </ButtonGroupFilter>
+                  ) : ''}
+                  <ButtonGroupFilter>
+                  <ButtonGroupFilterButton
+                    tooltipContent={
+                      <>
+                        {t('Tasks given by {{traderName}}', {traderName: trader.name})}
+                      </>
+                    }
+                    selected={selectedTable === 'tasks'}
+                    content={t('Tasks')}
+                    type="text"
+                    onClick={setSelectedTable.bind(undefined, 'tasks')}
+                  />
+                  </ButtonGroupFilter>
+                  <InputFilter
+                    defaultValue={nameFilter}
+                    onChange={handleNameFilterChange}
+                    placeholder={t('filter on item')}
+                  />
+              </Filter>
+          </div>
+
+          {selectedTable !== 'tasks' && (
+            <SmallItemTable
+              nameFilter={nameFilter}
+              traderFilter={trader.normalizedName}
+              loyaltyLevelFilter={Number.isInteger(selectedTable) ? selectedTable : false}
+              traderBuybackFilter={selectedTable === 'spending' ? true : false}
+              maxItems={selectedTable === 'spending' ? 50 : false}
+              fleaPrice={selectedTable === 'spending' ? false : 1}
+              traderOffer={selectedTable === 'spending' ? false : 2}
+              cheapestPrice={selectedTable === 'spending' ? 1 : false}
+              traderValue={selectedTable === 'spending' ? 2 : false}
+              traderBuyback={selectedTable === 'spending' ? 3 : false}
+              sortBy={selectedTable === 'spending' ? 'traderBuyback' : null}
+              sortByDesc={true}
+              showAllSources={selectedTable === 'spending' ? false : true}
+            />
+          )}
+          {selectedTable === 'tasks' && (
+            <QuestTable
+              giverFilter={trader.normalizedName}
+              nameFilter={nameFilter}
+              questRequirements={1}
+              minimumLevel={2}
+            />
+          )}
+      </div>
+    </div>,
     ];
 }
 
